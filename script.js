@@ -8,6 +8,7 @@ let path_len = grid_size_x;
 let grid_matrix = [];
 let selected;
 
+
 function init() {
   draw_grid(grid_size_x, grid_size_y);
   grid.addEventListener("wheel", scroll_handler);
@@ -57,7 +58,7 @@ function square_click(event) {
   } else {
     selected.classList.remove("clicked");
     selected = undefined;
-    clear_path();
+    //clear_path();
   }
 }
 
@@ -71,10 +72,20 @@ function draw_path(target) {
   if (selected === undefined) return;
   clear_path();
   let path = shortest_path(selected, target, path_len - 1);
-
+  let dist = 1;
+  
+  for (let i = 0; i < path.length; i++) {
+    let elem = path[i];
+    elem.classList.add("path");
+    //elem.innerText = dist++;
+  }
   for (let elem of path) {
     elem.classList.add("path");
   }
+  
+  // Calcula o comprimento do caminho
+  let length = path.length > 0 ? path.length : 0;
+  document.getElementById("path-length").textContent = "Passos: " + length;
 }
 
 function shortest_path(start, end, max = Infinity) {
@@ -129,6 +140,10 @@ function get_next_shortest_node(start, end) {
   }
 
   return shortest.elem;
+}
+
+function resetButton() {
+  clear_path();
 }
 
 init();
